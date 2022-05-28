@@ -2,9 +2,8 @@
 {
     public static class InputValidation
     {
-        public static int ValidateInputTypeInt(int maxRange)
+        public static int ValidateInputTypeInt(this string inputData, int maxRange)
         {
-            string inputData = Console.ReadLine();
             int inputDataConverted = 0;
             try
             {
@@ -12,30 +11,28 @@
                 if(inputDataConverted > maxRange)
                 {
                     Console.WriteLine($"Somente números menores ou iguais a {maxRange} são aceitos");
-                    inputDataConverted = ValidateInputTypeInt(maxRange);
+                    inputDataConverted = Console.ReadLine()!.ValidateInputTypeInt(maxRange);
                 }
                 else if (inputDataConverted < 0)
                 {
                     Console.WriteLine($"Números negativos não são aceitos");
-                    inputDataConverted = ValidateInputTypeInt(maxRange);
+                    inputDataConverted = Console.ReadLine()!.ValidateInputTypeInt(maxRange);
                 }
             }
             catch (FormatException)
             {
                 Console.WriteLine("Somente números são aceitos.");
-                inputDataConverted = ValidateInputTypeInt(maxRange);
+                inputDataConverted = Console.ReadLine()!.ValidateInputTypeInt(maxRange);
             }
             return inputDataConverted;
         }
 
-        public static string ValidateInputTypeString()
+        public static string ValidateInputTypeString(this string inputData)
         {
-            string inputData = Console.ReadLine();
-
             if (String.IsNullOrEmpty(inputData))
             {
                 Console.WriteLine($"Nomes vazios não são aceitos");
-                inputData = ValidateInputTypeString();
+                inputData = Console.ReadLine()!.ValidateInputTypeString();
             }
 
             return inputData;

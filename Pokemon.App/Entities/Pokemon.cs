@@ -19,14 +19,5 @@
             Atack = pokemon.Atack;
         }
 
-        public void DecreaseLifePoints(int amount)
-        {
-            LifePoints -= amount;
-        }
-
-        public void ShowLifePoints()
-        {
-            Console.WriteLine($"{Name} - {LifePoints}");
-        }
     }
 }
