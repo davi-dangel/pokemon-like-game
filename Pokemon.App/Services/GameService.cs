@@ -42,14 +42,14 @@ namespace PokemonGame.App.Services
             List<Player> players = new List<Player>();
             if (gameMode == GameModeEnum.SOLO)
             {
-                players.Add(_playerService.CreatePlayer(allPokemons, PlayersType.HUMAN));
+                players.Add(_playerService.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
                 //TODO: O player computador deve ser criado no mesmo padrão do jogador humano para manter o padrão
-                players.Add(new Player("Computer", new Pokemon(allPokemons[new Random().Next(allPokemons.Count)]), PlayersType.PC));
+                players.Add(new Player("Computer", new Pokemon(allPokemons[new Random().Next(allPokemons.Count)]), PlayersTypeEnum.PC));
             }
             else
             {
-                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersType.HUMAN));
-                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersType.HUMAN));
+                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
+                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
             }
 
             return players;
@@ -66,12 +66,12 @@ namespace PokemonGame.App.Services
 
         private void DoMoviment(List<Player> players)
         {
-            if (players.First(x => x.Type.Equals(PlayersType.HUMAN)).ItsTurn == true)
+            if (players.First(x => x.Type.Equals(PlayersTypeEnum.HUMAN)).ItsTurn == true)
             {
                 Console.WriteLine("Qual o seu movimento?");
                 Console.WriteLine("[0] - Atacar");
                 int movimentChosed = Console.ReadLine()!.ValidateInputTypeInt(0);
-                players.First(x => x.ItsTurn == false).Pokemon.DecreaseLifePoints(players.First(x => x.ItsTurn == true).Pokemon.Atack);
+                players.First(x => x.ItsTurn == false).Pokemon.DecreaseLifePoints(players.First(x => x.ItsTurn == true).Pokemon.AtackPower);
             }
             else
             {

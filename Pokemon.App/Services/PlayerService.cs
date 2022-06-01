@@ -15,7 +15,7 @@ namespace PokemonGame.App.Services
 
             for (int i = 0; i < allPokemons.Count(); i++)
             {
-                Console.WriteLine($"[{i}] - {allPokemons[i].Name} - {allPokemons[i].LifePoints} - {allPokemons[i].Atack}");
+                Console.WriteLine($"[{i}] - {allPokemons[i].Name} - {allPokemons[i].LifePoints} - {allPokemons[i].AtackPower}");
             }
 
             Console.WriteLine("Agora escolha seu Pokemon");
