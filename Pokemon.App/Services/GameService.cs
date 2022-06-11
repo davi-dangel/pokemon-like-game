@@ -1,7 +1,5 @@
 ﻿using PokemonGame.App.Entities;
 using PokemonGame.App.Enums;
-using PokemonGame.App.ExtensionMethods;
-using PokemonGame.App.Interfaces;
 using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
 

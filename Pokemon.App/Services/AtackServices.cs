@@ -1,5 +1,4 @@
 ﻿using PokemonGame.App.Entities.Movements;
-using PokemonGame.App.Interfaces;
 using PokemonGame.App.Interfaces.Services;
 
 namespace PokemonGame.App.Services
