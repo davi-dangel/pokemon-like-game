@@ -1,6 +1,6 @@
-﻿using PokemonGame.App.Enums;
+﻿using PokemonGame.App.Entities;
 
-namespace PokemonGame.App.Interfaces
+namespace PokemonGame.App.Interfaces.Entities
 {
     public interface IMovement
     {
@@ -9,6 +9,6 @@ namespace PokemonGame.App.Interfaces
         public string Type { get; set; }
         public string Description { get; set; }
 
-        float DoMoviment(float power);
+        void DoMoviment(Dictionary<string, Pokemon> pokemons);
     }
 }

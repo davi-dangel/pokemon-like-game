@@ -16,6 +16,20 @@
          *      Recuperação - Recuperar pontos de vida
          *      Diminuir Defesa - Diminui a defesa do oponente
          *      Diminuir Ataque - Diminui o ataque do oponente
+         *      
+         *      ou
+         *      
+         *      ataque
+         *      recuperação de vida
+         *      defesa (jogador escolhe se quer aumentar ou diminuir a defesa
+         *      
+         *      ou
+         *      
+         *      ataque
+         *      aumentar ataque
+         *      diminuir defesa
+         *      aumentar defesa
+         *      
          * 
          * Power
          *      Como que eu balanceio isso

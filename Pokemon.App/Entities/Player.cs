@@ -1,6 +1,4 @@
-﻿using PokemonGame.App.Utils;
-
-namespace PokemonGame.App.Entities
+﻿namespace PokemonGame.App.Entities
 {
     public class Player
     {

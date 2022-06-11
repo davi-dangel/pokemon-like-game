@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PokemonGame.App.Interfaces;
+using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Services;
 
 namespace PokemonGame.App.Configurations
@@ -11,6 +11,7 @@ namespace PokemonGame.App.Configurations
             services.AddScoped<IPlayerService, PlayerService>();
             services.AddScoped<IPokemonService, PokemonService>();
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IAtackService, AtackServices>();
         }
     }
 }

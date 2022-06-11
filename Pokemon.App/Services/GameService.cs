@@ -2,6 +2,7 @@
 using PokemonGame.App.Enums;
 using PokemonGame.App.ExtensionMethods;
 using PokemonGame.App.Interfaces;
+using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
 
 namespace PokemonGame.App.Services
@@ -17,11 +18,11 @@ namespace PokemonGame.App.Services
             _playerService = playerService1;
         }
 
-        public Game CreateGame(List<Pokemon> allPokemons)
+        public Game CreateGame()
         {
             Game game = new Game();
             game.SetGameMode();
-            SetPlayers(game.GameMode, allPokemons).ForEach(p => game.SetPlayer(p));
+            SetPlayers(game.GameMode, _pokemonService.GetAll()).ForEach(p => game.SetPlayer(p));
 
             return game;
         }
@@ -31,20 +32,20 @@ namespace PokemonGame.App.Services
             while (VerifyPokemonsLifePoints(game.Players))
             {
                 DoMoviment(game.Players);
+                InvertTurn(game.Players);
                 ShowAllLifePoints(game.Players);
             }
             //TODO: Declarar o fim da batalha
             Console.WriteLine("Fim da batalha");
         }
 
-        private List<Player> SetPlayers(string gameMode, List<Pokemon> allPokemons)
+        private List<Player> SetPlayers(string gameMode, IList<Pokemon> allPokemons)
         {
             List<Player> players = new List<Player>();
             if (gameMode == GameModeEnum.SOLO)
             {
                 players.Add(_playerService.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
-                //TODO: O player computador deve ser criado no mesmo padrão do jogador humano para manter o padrão
-                players.Add(new Player("Computer", new Pokemon(allPokemons[new Random().Next(allPokemons.Count)]), PlayersTypeEnum.PC));
+                players.Add(_playerService.CreateComputerPlayer(allPokemons));
             }
             else
             {
@@ -71,14 +72,18 @@ namespace PokemonGame.App.Services
                 Console.WriteLine("Qual o seu movimento?");
                 Console.WriteLine("[0] - Atacar");
                 int movimentChosed = Console.ReadLine()!.ValidateInputTypeInt(0);
-                players.First(x => x.ItsTurn == false).Pokemon.DecreaseLifePoints(players.First(x => x.ItsTurn == true).Pokemon.AtackPower);
+
+                Dictionary<string, Pokemon> pokemons = new Dictionary<string, Pokemon>();
+                pokemons.Add("active", players.First(x => x.ItsTurn == true).Pokemon);
+                pokemons.Add("unactive", players.First(x => x.ItsTurn == false).Pokemon);
+
+                pokemons["active"].Movements[movimentChosed].DoMoviment(pokemons);
             }
             else
             {
                 //TODO: Criar um modulo para quando for a vez do computador jogar
                 //Fazer o modulo depois que definir como serão os movimentos
             }
-            InvertTurn(players);
             Console.Clear();
         }
 

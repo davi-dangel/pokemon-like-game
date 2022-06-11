@@ -1,32 +1,82 @@
 ﻿using PokemonGame.App.Entities;
-using PokemonGame.App.Interfaces;
+using PokemonGame.App.Entities.Movements;
+using PokemonGame.App.Enums;
+using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
 
 namespace PokemonGame.App.Services
 {
     public class PlayerService : IPlayerService
     {
-        public Player CreatePlayer(List<Pokemon> allPokemons, string type)
+        private readonly IPokemonService _pokemonService;
+        private readonly IAtackService _atackService;
+
+        public PlayerService(IPokemonService pokemonService, IAtackService atackService)
         {
-            Console.Write("Entre com seu nome: ");
-            string playerName = Console.ReadLine()!.ValidateInputTypeString();
+            _pokemonService = pokemonService;
+            _atackService = atackService;
+        }
 
-            Console.Clear();
+        public Player CreatePlayer(IList<Pokemon> allPokemons, string type)
+        {
+            string playerName = SetPlayerName();
 
-            for (int i = 0; i < allPokemons.Count(); i++)
-            {
-                Console.WriteLine($"[{i}] - {allPokemons[i].Name} - {allPokemons[i].LifePoints} - {allPokemons[i].AtackPower}");
-            }
-
-            Console.WriteLine("Agora escolha seu Pokemon");
-
-            int pokemonPosition = Console.ReadLine()!.ValidateInputTypeInt(allPokemons.Count() - 1);
-
+            int pokemonPosition = ChosePokemon(allPokemons);
             Pokemon pokemon = new Pokemon(allPokemons[pokemonPosition]);
-
-            Console.Clear();
+            pokemon.SetAtackPower(SetAtackPower(pokemon.PointsToDestrubuit));
+            pokemon.SetDefensePower();
+            pokemon.AddMoviment(SetAtack(_atackService.GetAll()));            
 
             return new Player(playerName, pokemon, type); ;
+        }
+
+        public Player CreateComputerPlayer(IList<Pokemon> allPokemons)
+        {
+            string playerName = "Computer";
+            Random random = new Random();
+            Pokemon pokemon = allPokemons[random.Next(0, allPokemons.Count() - 1)];
+            pokemon.SetAtackPower(random.Next(1, pokemon.PointsToDestrubuit));
+            pokemon.SetDefensePower();
+
+            var atacks = _atackService.GetAll();
+            pokemon.AddMoviment(atacks[random.Next(0, atacks.Count() - 1)]);
+
+            return new Player(playerName, pokemon, PlayersTypeEnum.PC);
+        }
+
+        private string SetPlayerName()
+        {
+            Console.Write("Entre com seu nome: ");
+            var playerName = Console.ReadLine()!.ValidateInputTypeString();
+            Console.Clear();
+
+            return playerName;
+        }
+
+        private int ChosePokemon(IList<Pokemon> allPokemons)
+        {
+            _pokemonService.ShowPokemons(allPokemons);
+            Console.WriteLine("Agora escolha seu Pokemon");
+            int pokemonPosition = Console.ReadLine()!.ValidateInputTypeInt(allPokemons.Count() - 1);
+            Console.Clear();
+            return pokemonPosition;
+        }
+
+        private int SetAtackPower(int points)
+        {
+            Console.WriteLine($"Você possui {points} para distribuir entre ataque e defesa.\nQuantos pontos irão para o ataque?");
+            var atackPoints = Console.ReadLine()!.ValidateInputTypeInt(points);
+            Console.Clear();
+            return atackPoints;
+        }
+
+        private Atack SetAtack(IList<Atack> atacks)
+        {
+            Console.WriteLine("Agora escolha seu Ataque");
+            _atackService.ShowAtacks(atacks);
+            int atackPosition = Console.ReadLine()!.ValidateInputTypeInt(atacks.Count() - 1);
+            Console.Clear();
+            return atacks[atackPosition];
         }
     }
 }
