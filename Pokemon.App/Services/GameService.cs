@@ -1,5 +1,6 @@
 ﻿using PokemonGame.App.Entities;
 using PokemonGame.App.Enums;
+using PokemonGame.App.Interfaces.Entities;
 using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
 
@@ -37,35 +38,35 @@ namespace PokemonGame.App.Services
             Console.WriteLine("Fim da batalha");
         }
 
-        private List<Player> SetPlayers(string gameMode, IList<Pokemon> allPokemons)
+        private List<IPlayer> SetPlayers(string gameMode, IList<Pokemon> allPokemons)
         {
-            List<Player> players = new List<Player>();
+            List<IPlayer> players = new List<IPlayer>();
             if (gameMode == GameModeEnum.SOLO)
             {
-                players.Add(_playerService.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
+                players.Add(_playerService.CreatePlayer(allPokemons));
                 players.Add(_playerService.CreateComputerPlayer(allPokemons));
             }
             else
             {
-                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
-                players.Add(_playerService!.CreatePlayer(allPokemons, PlayersTypeEnum.HUMAN));
+                players.Add(_playerService!.CreatePlayer(allPokemons));
+                players.Add(_playerService!.CreatePlayer(allPokemons));
             }
 
             return players;
 
         }
 
-        private void ShowAllLifePoints(List<Player> players)
+        private void ShowAllLifePoints(List<IPlayer> players)
         {
-            foreach (Player player in players)
+            foreach (IPlayer player in players)
             {
                 _pokemonService.ShowLifePoints(player.Pokemon);
             }
         }
 
-        private void DoMoviment(List<Player> players)
+        private void DoMoviment(List<IPlayer> players)
         {
-            if (players.First(x => x.Type.Equals(PlayersTypeEnum.HUMAN)).ItsTurn == true)
+            if (players.First(x => x.GetType() == typeof(PlayerHuman)).ItsTurn == true)
             {
                 Console.WriteLine("Qual o seu movimento?");
                 Console.WriteLine("[0] - Atacar");
@@ -86,15 +87,15 @@ namespace PokemonGame.App.Services
         }
 
 
-        private void InvertTurn(List<Player> players)
+        private void InvertTurn(List<IPlayer> players)
         {
-            foreach (Player player in players)
+            foreach (IPlayer player in players)
             {
                 player.ItsTurn = !player.ItsTurn;
             }
         }
 
-        private bool VerifyPokemonsLifePoints(List<Player> players)
+        private bool VerifyPokemonsLifePoints(List<IPlayer> players)
         {
 
             var hasOnePokemonDead = players.FirstOrDefault(x => x?.Pokemon.LifePoints <= 0, null);

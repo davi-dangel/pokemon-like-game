@@ -10,3 +10,10 @@ var gameService = serviceProvider.GetService<IGameService>();
 
 Game game = gameService!.CreateGame();
 gameService.StartGame(game);
+
+/*
+ * 
+ * TODO: apply types to pokemons and atacks
+ * 
+ * 
+ */

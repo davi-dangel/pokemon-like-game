@@ -1,19 +1,17 @@
-﻿using PokemonGame.App.Entities;
-using PokemonGame.App.Utils;
+﻿using PokemonGame.App.Utils;
 using PokemonGame.App.Enums;
-using PokemonGame.App.Interfaces;
-using PokemonGame.App.ExtensionMethods;
+using PokemonGame.App.Interfaces.Entities;
 
 namespace PokemonGame.App
 {
     public class Game
     {
         public string GameMode { get; private set; }
-        public List<Player> Players { get; private set; }
+        public List<IPlayer> Players { get; private set; }
 
         public Game() 
         {
-            Players = new List<Player>();
+            Players = new List<IPlayer>();
         }
 
         public void SetGameMode()
@@ -27,7 +25,7 @@ namespace PokemonGame.App
             Console.Clear();
         }
 
-        public void SetPlayer(Player player)
+        public void SetPlayer(IPlayer player)
         {
             player.ItsTurn = Players.Count == 0 ? true : false;
             Players.Add(player);

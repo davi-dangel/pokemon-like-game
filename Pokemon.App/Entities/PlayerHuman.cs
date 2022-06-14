@@ -1,17 +1,17 @@
-﻿namespace PokemonGame.App.Entities
+﻿using PokemonGame.App.Interfaces.Entities;
+
+namespace PokemonGame.App.Entities
 {
-    public class Player
+    public class PlayerHuman : IPlayer
     {
         public string Name { get; set; }
         public bool ItsTurn { get; set; }
-        public string Type { get; set; }
         public Pokemon Pokemon { get; set; }
 
-        public Player(string name, Pokemon pokemon, string type)
+        public PlayerHuman(string name, Pokemon pokemon)
         {
             Name = name;
             Pokemon = pokemon;
-            Type = type;
         }
     }
 }

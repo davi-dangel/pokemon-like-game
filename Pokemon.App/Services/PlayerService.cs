@@ -1,6 +1,7 @@
 ﻿using PokemonGame.App.Entities;
 using PokemonGame.App.Entities.Movements;
 using PokemonGame.App.Enums;
+using PokemonGame.App.Interfaces.Entities;
 using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
 
@@ -17,7 +18,7 @@ namespace PokemonGame.App.Services
             _atackService = atackService;
         }
 
-        public Player CreatePlayer(IList<Pokemon> allPokemons, string type)
+        public IPlayer CreatePlayer(IList<Pokemon> allPokemons)
         {
             string playerName = SetPlayerName();
 
@@ -27,10 +28,10 @@ namespace PokemonGame.App.Services
             pokemon.SetDefensePower();
             pokemon.AddMoviment(SetAtack(_atackService.GetAll()));            
 
-            return new Player(playerName, pokemon, type); ;
+            return new PlayerHuman(playerName, pokemon);
         }
 
-        public Player CreateComputerPlayer(IList<Pokemon> allPokemons)
+        public IPlayer CreateComputerPlayer(IList<Pokemon> allPokemons)
         {
             string playerName = "Computer";
             Random random = new Random();
@@ -41,7 +42,7 @@ namespace PokemonGame.App.Services
             var atacks = _atackService.GetAll();
             pokemon.AddMoviment(atacks[random.Next(0, atacks.Count() - 1)]);
 
-            return new Player(playerName, pokemon, PlayersTypeEnum.PC);
+            return new PlayerComputer(playerName, pokemon);
         }
 
         private string SetPlayerName()

@@ -1,10 +1,11 @@
 ﻿using PokemonGame.App.Entities;
+using PokemonGame.App.Interfaces.Entities;
 
 namespace PokemonGame.App.Interfaces.Services
 {
     public interface IPlayerService
     {
-        Player CreatePlayer(IList<Pokemon> allPokemons, string type);
-        Player CreateComputerPlayer(IList<Pokemon> allPokemons);
+        IPlayer CreatePlayer(IList<Pokemon> allPokemons);
+        IPlayer CreateComputerPlayer(IList<Pokemon> allPokemons);
     }
 }
