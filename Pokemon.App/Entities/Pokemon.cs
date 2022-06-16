@@ -9,21 +9,14 @@ namespace PokemonGame.App.Entities
         public int AtackPower { get; private set; }
         public int DefensePower { get; private set; }
         public int PointsToDestrubuit { get; } = 30;
+        public IType Type { get; private set; }
         public IList<IMovement> Movements  { get; private set; }
 
-        public Pokemon(string name, int lifePoints, int atackPower, int defensePower)
+        public Pokemon(string name, int lifePoints, IType type)
         {
             Name = name;
             LifePoints = lifePoints;
-            AtackPower = atackPower;
-            DefensePower = defensePower;
-            Movements = new List<IMovement>();
-        }
-
-        public Pokemon(string name, int lifePoints)
-        {
-            Name = name;
-            LifePoints = lifePoints;
+            Type = type;
             Movements = new List<IMovement>();
         }
 
@@ -33,6 +26,7 @@ namespace PokemonGame.App.Entities
             LifePoints = pokemon.LifePoints;
             AtackPower = pokemon.AtackPower;
             DefensePower = pokemon.DefensePower;
+            Type = pokemon.Type;
             Movements = pokemon.Movements;
         }
 
