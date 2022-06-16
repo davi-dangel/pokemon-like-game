@@ -12,8 +12,13 @@ Game game = gameService!.CreateGame();
 gameService.StartGame(game);
 
 /*
+ * NEXT STEPS
  * 
- * TODO: apply types to pokemons and atacks
- * 
+ * CREATE OTHER TYPES OF MOVEMENT
+ * CREATE MACHINE OPONENT
+ * CREATE MACHINE VS MACHINE MODE
+ * IMPLEMENT SIGNALR TO PLAY ONLINE
+ * CREATE DATABASE WITH ALL POKEMONS AND MOVEMENTS
+ * CREATE IA
  * 
  */
