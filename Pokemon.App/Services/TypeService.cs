@@ -11,6 +11,7 @@ namespace PokemonGame.App.Services
         {
             //TODO: Ver como vai ficar depois da implementação do banco, senão precisa melhorar
             //Melhorou muito com o dicionário
+            //TODO: Alterar para Listas IList<IType> depois da implementação dos testes unitários
             List<IType> types = new List<IType>
             {
                 new FireType
@@ -39,6 +40,13 @@ namespace PokemonGame.App.Services
                         { TypesRelationEnum.StrongerAgainst, new WaterType() },
                         { TypesRelationEnum.Neutral, new GrassType() },
                         { TypesRelationEnum.MuchWeakerAgainst, new FireType() }
+                    }
+                },
+                new NormalType
+                {
+                    TypesRelation = new Dictionary<string, IType>
+                    {
+                        { TypesRelationEnum.Neutral, new NormalType() }
                     }
                 }
             };

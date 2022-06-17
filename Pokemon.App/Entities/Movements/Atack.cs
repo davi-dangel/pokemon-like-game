@@ -12,10 +12,10 @@ namespace PokemonGame.App.Entities.Movements
 
         public void DoMoviment(Dictionary<string, Pokemon> pokemons)
         {
-            var defensePower = pokemons["unactive"].DefensePower;
-            var totalAtackPower = ((pokemons["active"].AtackPower * this.Power) - defensePower) / 10;
-            Console.WriteLine("AtackTotal: " + SetTypeMultiplier(pokemons["unactive"], totalAtackPower));
-            pokemons["unactive"].LifePoints = pokemons["unactive"].LifePoints - SetTypeMultiplier(pokemons["unactive"], totalAtackPower);
+            var defensePower = pokemons[PokemonStatusEnum.DISABLED].DefensePower;
+            var totalAtackPower = ((pokemons[PokemonStatusEnum.ACTIVE].AtackPower * this.Power) - defensePower) / 10;
+            Console.WriteLine("AtackTotal: " + SetTypeMultiplier(pokemons[PokemonStatusEnum.DISABLED], totalAtackPower));
+            pokemons[PokemonStatusEnum.DISABLED].LifePoints = pokemons[PokemonStatusEnum.DISABLED].LifePoints - SetTypeMultiplier(pokemons[PokemonStatusEnum.DISABLED], totalAtackPower);
         }
 
         private int SetTypeMultiplier(Pokemon pokemon, int totalAtackPower)

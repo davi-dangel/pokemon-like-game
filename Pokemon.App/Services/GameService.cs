@@ -73,10 +73,10 @@ namespace PokemonGame.App.Services
                 int movimentChosed = Console.ReadLine()!.ValidateInputTypeInt(0);
 
                 Dictionary<string, Pokemon> pokemons = new Dictionary<string, Pokemon>();
-                pokemons.Add("active", players.First(x => x.ItsTurn == true).Pokemon);
-                pokemons.Add("unactive", players.First(x => x.ItsTurn == false).Pokemon);
+                pokemons.Add(PokemonStatusEnum.ACTIVE, players.First(x => x.ItsTurn == true).Pokemon);
+                pokemons.Add(PokemonStatusEnum.DISABLED, players.First(x => x.ItsTurn == false).Pokemon);
 
-                pokemons["active"].Movements[movimentChosed].DoMoviment(pokemons);
+                pokemons[PokemonStatusEnum.ACTIVE].Movements[movimentChosed].DoMoviment(pokemons);
             }
             else
             {

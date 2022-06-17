@@ -1,6 +1,5 @@
 ﻿using PokemonGame.App.Entities;
 using PokemonGame.App.Entities.Movements;
-using PokemonGame.App.Enums;
 using PokemonGame.App.Interfaces.Entities;
 using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
@@ -11,11 +10,14 @@ namespace PokemonGame.App.Services
     {
         private readonly IPokemonService _pokemonService;
         private readonly IAtackService _atackService;
+        private readonly IMovementService _movementService;
 
-        public PlayerService(IPokemonService pokemonService, IAtackService atackService)
+        public PlayerService(IPokemonService pokemonService, IAtackService atackService,
+            IMovementService movementService)
         {
             _pokemonService = pokemonService;
             _atackService = atackService;
+            _movementService = movementService;
         }
 
         public IPlayer CreatePlayer(IList<Pokemon> allPokemons)
@@ -25,8 +27,9 @@ namespace PokemonGame.App.Services
             int pokemonPosition = ChosePokemon(allPokemons);
             Pokemon pokemon = new Pokemon(allPokemons[pokemonPosition]);
             pokemon.SetAtackPower(SetAtackPower(pokemon.PointsToDestrubuit));
-            pokemon.SetDefensePower();
-            pokemon.AddMoviment(SetAtack(_atackService.GetAll()));            
+            //TODO: talvez seja bom tirar a regra de negocio daqui
+            pokemon.SetDefensePower(pokemon.PointsToDestrubuit - pokemon.AtackPower);
+            pokemon.SetMoviment(_movementService.ChooseMovements(pokemon));    
 
             return new PlayerHuman(playerName, pokemon);
         }
@@ -37,10 +40,12 @@ namespace PokemonGame.App.Services
             Random random = new Random();
             Pokemon pokemon = allPokemons[random.Next(0, allPokemons.Count() - 1)];
             pokemon.SetAtackPower(random.Next(1, pokemon.PointsToDestrubuit));
-            pokemon.SetDefensePower();
+            pokemon.SetDefensePower(pokemon.PointsToDestrubuit - pokemon.AtackPower);
 
             var atacks = _atackService.GetAll();
-            pokemon.AddMoviment(atacks[random.Next(0, atacks.Count() - 1)]);
+            List<IMovement> moviments = new();
+            moviments.Add(atacks[random.Next(0, atacks.Count() - 1)]);
+            pokemon.SetMoviment(moviments);
 
             return new PlayerComputer(playerName, pokemon);
         }

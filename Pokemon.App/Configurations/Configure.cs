@@ -13,6 +13,8 @@ namespace PokemonGame.App.Configurations
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IAtackService, AtackServices>();
             services.AddScoped<ITypeService, TypeService>();
+            services.AddScoped<IStatusAtackService, StatusAtackService>();
+            services.AddScoped<IMovementService, MovementService>();
         }
     }
 }
