@@ -6,8 +6,8 @@ namespace PokemonGame.App.Interfaces.Services
 {
     public interface IMovementService
     {
-        IList<IMovement> ChooseMovements(Pokemon pokemon);
-        IMovement ChooseAtack (Pokemon pokemon, IList<Atack> allAtacks);
-        IMovement ChooseStatusAtack (Pokemon pokemon, IList<StatusAtack> allAtacks);
+        IMovement ChooseMovements(Pokemon pokemon, int movimentChoosed);
+        IMovement ChooseAtack (IList<Atack> allAtacks, int atackPosition);
+        IMovement ChooseStatusAtack (IList<StatusAtack> allStatusAtacks, int statusAtackPosition);
     }
 }

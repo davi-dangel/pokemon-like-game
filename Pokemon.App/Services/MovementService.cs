@@ -2,7 +2,7 @@
 using PokemonGame.App.Entities.Movements;
 using PokemonGame.App.Interfaces.Entities;
 using PokemonGame.App.Interfaces.Services;
-using PokemonGame.App.Utils;
+using PokemonGame.App.View.Services;
 
 namespace PokemonGame.App.Services
 {
@@ -17,45 +17,28 @@ namespace PokemonGame.App.Services
             _statusAtackService = statusAtackService;
         }
 
-        public IList<IMovement> ChooseMovements(Pokemon pokemon)
+        public IMovement ChooseMovements(Pokemon pokemon, int movimentChoosed)
         {
-            List<IMovement> moviments = new();
-            var atackMoviments = _atackService.GetAll();
-            var statusAtackMoviments = _statusAtackService.GetAll();
-
-            for (int i = 0; i < 2; i++)
+            if (movimentChoosed == 0)
             {
-                Console.WriteLine("Qual tipo de movimento você escolhe?");
-                Console.WriteLine("[0] - Ataque aos pontos de vida");
-                Console.WriteLine("[1] - Ataque aos status");
-                var movimentChoosed = Console.ReadLine()!.ValidateInputTypeInt(2);
-                Console.Clear();
-
-                if (movimentChoosed == 0)
-                    moviments.Add(ChooseAtack(pokemon, atackMoviments));
-                else
-                    moviments.Add(ChooseStatusAtack(pokemon, statusAtackMoviments));
+                var atackMoviments = _atackService.GetAll();
+                return ChooseAtack(atackMoviments, MovimentServiceView.ChooseAtackView(atackMoviments, _atackService));
             }
-
-            return moviments;
+            else
+            {
+                var statusAtackMoviments = _statusAtackService.GetAll();
+                return ChooseStatusAtack(statusAtackMoviments, MovimentServiceView.ChooseStatusAtack(statusAtackMoviments, _statusAtackService));
+            }
         }
 
-        public IMovement ChooseAtack(Pokemon pokemon, IList<Atack> allAtacks)
+        public IMovement ChooseAtack(IList<Atack> allAtacks, int atackPosition)
         {
-            Console.WriteLine("Agora escolha seu Ataque");
-            _atackService.ShowAtacks(allAtacks);
-            int atackPosition = Console.ReadLine()!.ValidateInputTypeInt(allAtacks.Count() - 1);
-            Console.Clear();
             return allAtacks[atackPosition];
         }
 
-        public IMovement ChooseStatusAtack(Pokemon pokemon, IList<StatusAtack> allStatusAtacks)
+        public IMovement ChooseStatusAtack(IList<StatusAtack> allStatusAtacks, int statusAtackPosition)
         {
-            Console.WriteLine("Agora escolha seu Ataque contra o Status");
-            _statusAtackService.ShowAtacks(allStatusAtacks);
-            int atackPosition = Console.ReadLine()!.ValidateInputTypeInt(allStatusAtacks.Count() - 1);
-            Console.Clear();
-            return allStatusAtacks[atackPosition];
+            return allStatusAtacks[statusAtackPosition];
         }
     }
 }

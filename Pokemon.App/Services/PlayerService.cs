@@ -3,6 +3,7 @@ using PokemonGame.App.Entities.Movements;
 using PokemonGame.App.Interfaces.Entities;
 using PokemonGame.App.Interfaces.Services;
 using PokemonGame.App.Utils;
+using PokemonGame.App.View.Services;
 
 namespace PokemonGame.App.Services
 {
@@ -29,7 +30,10 @@ namespace PokemonGame.App.Services
             pokemon.SetAtackPower(SetAtackPower(pokemon.PointsToDestrubuit));
             //TODO: talvez seja bom tirar a regra de negocio daqui
             pokemon.SetDefensePower(pokemon.PointsToDestrubuit - pokemon.AtackPower);
-            pokemon.SetMoviment(_movementService.ChooseMovements(pokemon));    
+            for(int i = 0; i < 2; i++)
+            {
+                pokemon.AddMoviment(_movementService.ChooseMovements(pokemon, MovimentServiceView.ChooseMovimentView()));
+            }
 
             return new PlayerHuman(playerName, pokemon);
         }
@@ -43,9 +47,7 @@ namespace PokemonGame.App.Services
             pokemon.SetDefensePower(pokemon.PointsToDestrubuit - pokemon.AtackPower);
 
             var atacks = _atackService.GetAll();
-            List<IMovement> moviments = new();
-            moviments.Add(atacks[random.Next(0, atacks.Count() - 1)]);
-            pokemon.SetMoviment(moviments);
+            pokemon.AddMoviment(atacks[random.Next(0, atacks.Count() - 1)]);
 
             return new PlayerComputer(playerName, pokemon);
         }

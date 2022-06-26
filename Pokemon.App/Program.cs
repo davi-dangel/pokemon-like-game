@@ -6,6 +6,7 @@ using PokemonGame.App.Interfaces.Services;
 var serviceCollection = new ServiceCollection();
 Configure.ConfigureServices(serviceCollection);
 var serviceProvider = serviceCollection.BuildServiceProvider();
+serviceProvider.GetService<IAtackService>();
 var gameService = serviceProvider.GetService<IGameService>();
 
 Game game = gameService!.CreateGame();

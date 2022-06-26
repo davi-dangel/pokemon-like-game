@@ -40,9 +40,9 @@ namespace PokemonGame.App.Entities
             DefensePower = PointsToDestrubuit - AtackPower;
         }
 
-        public void SetMoviment(IList<IMovement> movements)
+        public void AddMoviment(IMovement movement)
         {
-            Movements = movements;
+            Movements.Add(movement);
         }
     }
 }
